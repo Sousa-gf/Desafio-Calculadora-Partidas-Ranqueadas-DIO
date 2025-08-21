@@ -34,7 +34,8 @@ const prompt = require("prompt-sync")();
 
 function main() {
   welcome();
-  definirRank();
+  let saldoVitorias = calcWinDef();
+  let ranking = definirRank(saldoVitorias);
   console.log(
     `O Herói tem saldo de ${saldoVitorias} vitórias e está no nível de ${ranking}`
   );
@@ -49,7 +50,7 @@ function calcWinDef() {
   let numWins = Number(
     prompt("Digite o numero de Vitorias nas partidas ranqueadas: ")
   );
-  while (isNaN(numWins)) {
+  while (isNaN(numWins) || numWins < 0) {
     console.log("Digite um numero valido");
     numWins = Number(
       prompt("Digite o numero de Vitorias nas partidas ranqueadas: ")
@@ -58,7 +59,7 @@ function calcWinDef() {
   let numDefets = Number(
     prompt("Digite o numero de Derrotas nas partidas ranqueadas: ")
   );
-  while (isNaN(numDefets)) {
+  while (isNaN(numDefets) || numDefets < 0) {
     console.log("Digite um numero valido");
     numDefets = Number(
       prompt("Digite o numero de Derrotas nas partidas ranqueadas: ")
@@ -67,27 +68,24 @@ function calcWinDef() {
   return numWins - numDefets;
 }
 
-let saldoVitorias = calcWinDef();
-let ranking = "";
-
-function definirRank() {
+function definirRank(saldoVitorias) {
   if (saldoVitorias >= 0 && saldoVitorias <= 10) {
-    ranking = "Ferro";
+    return "Ferro";
   } else if (saldoVitorias >= 11 && saldoVitorias <= 20) {
-    ranking = "Bronze";
+    return "Bronze";
   } else if (saldoVitorias >= 21 && saldoVitorias <= 50) {
-    ranking = "Prata";
+    return "Prata";
   } else if (saldoVitorias >= 51 && saldoVitorias <= 80) {
-    ranking = "Ouro";
+    return "Ouro";
   } else if (saldoVitorias >= 81 && saldoVitorias <= 90) {
-    ranking = "Diamante";
+    return "Diamante";
   } else if (saldoVitorias >= 91 && saldoVitorias <= 100) {
-    ranking = "Lendário";
+    return "Lendário";
   } else if (saldoVitorias >= 101) {
-    ranking = "Imortal";
+    return "Imortal";
   } else {
-    ranking = "Lixo";
     console.log(`Como você conseguiu ter um resultado abaixo de zero?`);
+    return "Lixo";
   }
 }
 
